@@ -1,0 +1,17 @@
+server:
+  port: 9595
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: pawan
+    url: jdbc:mysql://localhost:3306/nov
+    #        url: jdbc:mysql://192.168.2.47:3306/test
+    username: pawan
+  jpa:
+      properties:
+        hibernate:
+      #                format_sql: true
+      hibernate:
+        ddl-auto: none
+
+      show-sql: true
