@@ -35,22 +35,31 @@ public class ProductDetailsServiceImpl implements ProductDetailsService {
     @Override
     public Map<String,Object> getProductDetailsAndQuestionsByProductId(long productId) {
       List<ProductDto> dtos=new ArrayList<>();
-      Product product1=this.product.findById(productId).orElseThrow();
-        ProductDetails details=this.detailsRepo.findByProductId(productId);
+      List<String> list = new ArrayList<>();
+        Product product1=this.product.findById(productId).orElseThrow();
+        List<ProductDetails> details=this.detailsRepo.findAllByProductId(productId);
         List<ProductQuestion> questions= this.questionRepo.findAllByProductId(productId);
-
         ProductDto dto=new ProductDto();
-        dto.setProductId(details.getProductId());
-        dto.setProductRam(details.getProductRam());
-        dto.setProductModel(details.getProductModel());
-        dto.setProductPrice(details.getProductPrice());
-        dto.setProductName(product1.getProductName());
-        List<String> questionDescriptions = questions.stream()
-                .map(ProductQuestion::getProductQuestions)
-                .collect(Collectors.toList());
-        dto.setQuestions(questionDescriptions);
-        dtos.add(dto);
+       for(ProductDetails p:details)
+       {
+
+           dto.setProductId(p.getProductId());
+           dto.setProductRam(p.getProductRam());
+           dto.setProductModel(p.getProductModel());
+           dto.setProductPrice(p.getProductPrice());
+           dto.setProductName(product1.getProductName());
+           dtos.add(dto);
+
+       }
+
+       for(ProductQuestion q:questions)
+       {
+
+           list.add(q.getProductQuestions());
+       }
+
         map.put("productDetails",dtos);
+       map.put("productQuestions",list);
         map.put("status", HttpStatus.OK.value());
 
         return map;
