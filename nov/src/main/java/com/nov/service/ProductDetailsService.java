@@ -6,4 +6,6 @@ import java.util.Map;
 
 public interface ProductDetailsService {
     Map<String,Object> getProductDetailsAndQuestionsByProductId(long productId);
+
+    Map<String, Object> insert(ProductDto dto);
 }

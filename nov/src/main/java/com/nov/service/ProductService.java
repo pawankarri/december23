@@ -12,6 +12,9 @@ public interface ProductService {
 
     Map<String,Object> findAll();
 
+
+
+
 //    ResponseEntity<Map<String, Object>> findByPid();
 
 //    ResponseEntity<Map<String, Object>> findByPid(long id);

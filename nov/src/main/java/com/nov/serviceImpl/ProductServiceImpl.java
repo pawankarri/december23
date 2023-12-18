@@ -20,6 +20,10 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepo productRepo;
+    @Autowired
+    private ProductDetailsRepo detailsRepo;
+    @Autowired
+    private ProductQuestionRepo questionRepo;
     Map<String,Object> map=new HashMap<>();
     @Override
     public Map<String, Object> findAll() {
@@ -29,6 +33,9 @@ public class ProductServiceImpl implements ProductService {
         return map;
 
     }
+
+
+
 
 //    @Override
 //    public ResponseEntity<Map<String, Object>> findByPid(long id) {

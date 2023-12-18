@@ -4,6 +4,7 @@ import com.nov.dto.ProductDto;
 import com.nov.entites.Product;
 import com.nov.entites.ProductDetails;
 import com.nov.entites.ProductQuestion;
+import com.nov.exception.IdNotFoundException;
 import com.nov.repo.ProductDetailsRepo;
 import com.nov.repo.ProductQuestionRepo;
 import com.nov.repo.ProductRepo;
@@ -53,5 +54,38 @@ public class ProductDetailsServiceImpl implements ProductDetailsService {
         map.put("status", HttpStatus.OK.value());
 
         return map;
+    }
+
+    @Override
+    public Map<String, Object> insert(ProductDto dto) {
+        List<ProductQuestion> list=new ArrayList<>();
+        ProductDetails details=new ProductDetails();
+        Product product1 = this.product.findById(dto.getProductId()).orElseThrow(() -> new IdNotFoundException("id doesn't exists"));
+        if(product1!=null) {
+            details.setProductId(product1.getProductId());
+            details.setProductModel(dto.getProductModel());
+            details.setProductRam(dto.getProductRam());
+            details.setProductPrice(dto.getProductPrice());
+            detailsRepo.save(details);
+
+        }
+        else {
+            throw new RuntimeException("data doesn't save");
+        }
+
+        for (String s : dto.getQuestions()) {
+            ProductQuestion question = new ProductQuestion();
+            question.setProductId(product1.getProductId());
+            question.setProductQuestions(s);
+            list.add(question);
+
+        }
+        questionRepo.saveAll(list);
+        map.put("result",HttpStatus.CREATED.value());
+        map.put("productDetails",details);
+        map.put("productQuestions",list);
+        return map;
+
+
     }
 }

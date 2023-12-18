@@ -6,10 +6,7 @@ import com.nov.service.ProductService;
 import com.nov.serviceImpl.ProductServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -31,4 +28,14 @@ public ResponseEntity<Map<String,Object>> getProductDetailsAndQuestions(@PathVar
     Map<String,Object> result = detailsService.getProductDetailsAndQuestionsByProductId(productId);
     return ResponseEntity.ok().body(result);
 }
+
+
+@PostMapping("/insert")
+    public  ResponseEntity<Map<String,Object>> insert(@RequestBody ProductDto dto)
+{
+     Map<String,Object> res=this.detailsService.insert(dto);
+    return ResponseEntity.ok().body(res);
+}
+
+
 }
